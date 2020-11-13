@@ -153,6 +153,8 @@
 
 (square (alt-sqrt 0.001))
 (square (alt-sqrt 1e13))
+
+(alt-sqrt 9)
   
 
 ;; EXERCISE 1.8
