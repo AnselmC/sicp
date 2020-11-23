@@ -448,7 +448,7 @@
   (queen-cols board-size))
              
 
-(cadr (queens 8))
+(length (queens 8))
 
 ;; EXERCISE 43
 ;; TODO
@@ -473,7 +473,7 @@
   (define (split-iter painter n)
     (if (= n 0)
         painter
-        (let ((smaller (split-iter painer (-n 1))))
+        (let ((smaller (split-iter painter (- n 1))))
           (op1 painter (op2 smaller smaller)))))
   (lambda (painter n)
     (split-iter painter n)))
@@ -591,13 +591,13 @@
   (transform-painter painter
                      (make-vect 1.0 0.0) ;; origin
                      (make-vect 0.0 0.0) ;; new end of edge 1
-                     (make-vect 0.0 1.0))) ;; new end of edge 2
+                     (make-vect 1.0 1.0))) ;; new end of edge 2
 
 (define (rotate180-ccw painter)
   (transform-painter painter
                      (make-vect 1.0 1.0)
-                     (make-vect 1.0 0.0)
-                     (make-vect 0.0 1.0)))
+                     (make-vect 0.0 1.0)
+                     (make-vect 1.0 0.0)))
 
 
 (define (rotate270-ccw painter)
@@ -633,7 +633,7 @@
            (transform-painter other-painter
                               split-point
                               (make-vect 1.0 0.5)
-                              (make-vect 1.0 0.0)))
+                              (make-vect 0.0 1.0)))
           (paint-bottom
            (transform-painter painter
                               (make-vect 0.0 0.0)
@@ -648,8 +648,8 @@
   ;; idea: rotate 90 degrees + beside + rotate -90 degrees
   (lambda (frame)
     ((rotate270-cw ;; rotate painter back into orig. orientation
-      (beside (rotate90 painter) ;; apply beside (returns painter)
-              (rotate90 other-painter))) ;; rotate painters by 90 degrees
+      (beside (rotate90 other-painter) ;; apply beside (returns painter)
+              (rotate90 painter))) ;; rotate painters by 90 degrees
      frame))) ;; apply frame on resulting painter
 
 
@@ -673,10 +673,7 @@
                                   rotate90 flip-vert)))
     (combine4 (corner-split painter n))))
 
-  
-
-
-
-
-                                
-                     
+(define (square-limit painter n)
+  (let ((combine4 (square-of-four flip-horiz identity
+                                  rotate180 flip-vert)))
+    (combine4 (corner-split painter n))))
