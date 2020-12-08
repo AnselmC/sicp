@@ -452,28 +452,17 @@
 ;; then use O(n) implementations for `union-set` (Exercise 62) and `intersection-set` for ordered sets on result
 ;; and finally create a balanced tree in O(n)
 ;; overall this takes O(n) + 2*O(n) + O(n) = O(n) time
-(define (tree->list tree)
-  (cond ((and (null? (left-branch tree))
-              (null? (right-branch tree)))
-         (list (entry tree)))
-        ((null? (left-branch tree))
-         (cons (entry tree) (tree->list (right-branch tree))))
-        ((null? (right-branch tree))
-         (append (tree->list (left-branch tree)) (list (entry tree))))
-        (else
-         (append (tree->list (left-branch tree)) (list (entry tree)) (tree->list (right-branch tree))))))
-
         
 (define (union-set-* tree1 tree2)
-  (let* ((set1 (tree->list tree1))
-         (set2 (tree->list tree2))
+  (let* ((set1 (tree->list-2 tree1))
+         (set2 (tree->list-2 tree2))
          (union (union-set set1 set2)))
     (list->tree union)))
     
 ;; similar argument for intersection-set
 (define (intersection-set-* tree1 tree2)
-  (let* ((set1 (tree->list tree1))
-         (set2 (tree->list tree2))
+  (let* ((set1 (tree->list-2 tree1))
+         (set2 (tree->list-2 tree2))
          (intersection (intersection-set set1 set2)))
     (list->tree intersection)))
 
